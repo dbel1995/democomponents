@@ -29,7 +29,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "W:/Java_Practice/Angular/SimpliLearn/Angular_Demo/democomponents/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "W:/Java_Practice/Angular/SimpliLearn/Angular_Demo/democomponents/node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {

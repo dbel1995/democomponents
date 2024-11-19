@@ -1,0 +1,15 @@
+:host{
+    --lwc-inputStaticFontSize: large;
+    --lwc-formLabelFontSize : large;
+    --sds-c-card-color-background: rgb(71, 206, 244)!important;
+}
+.card {
+    background: rgb(71, 206, 244)!important;
+    height:150px;
+}
+.slds-card_body{
+    background: rgb(71, 206, 244)!important;
+}
+.bannerBody{
+    background-color: rgb(71, 206, 244)!important;
+}

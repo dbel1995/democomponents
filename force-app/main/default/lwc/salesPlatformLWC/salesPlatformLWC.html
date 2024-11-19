@@ -1,0 +1,287 @@
+<template>
+    <div class="slds-grid slds-wrap slds-col slds-grid_vertical-stretch slds-border_bottom">
+        <!--Header Area/Name/Status-->
+        <div data-id="bannerDiv" class="slds-size_12-of-12 slds-p-bottom_small size-of-font left-margin slds-border_bottom">
+            <lightning-card class="card">
+                <br><br>
+            <lightning-record-view-form record-id={recordId} object-api-name="Rzlt__Campaign__c">
+                <div class="card slds-grid">
+                    <div style="font-size:medium" class="slds-col slds-p-top_large slds-size_1-of-1">
+                            <lightning-output-field class="slds-align_absolute-center" variant="label-hidden" field-name="Name"></lightning-output-field>
+                    </div>
+                </div>
+            </lightning-record-view-form>
+        </lightning-card>
+        </div>
+        <div class="slds-size_12-of-12 slds-p-bottom_small size-of-font left-margin slds-border_bottom">
+                <div class="slds-grid">
+                    <!--New Contact-->
+                    <div class="slds-col slds-p-top_medium slds-size_1-of-3">
+                        <lightning-icon icon-name="utility:add" size="x-small"></lightning-icon>
+                        <lightning-button label="Add Contact" variant="brand" title="Add Contact" onclick={addContact} class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                    <!--Delete Contact-->
+                    <div class="slds-col slds-p-top_medium slds-size_1-of-3">
+                        <lightning-icon icon-name="utility:delete" size="x-small"></lightning-icon>
+                        <lightning-button label="Remove Contact" variant="destructive" onclick={deleteContact} title="Delete Contact"  class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                    <!--
+                    <div class="slds-col slds-p-top_medium slds-size_1-of-6">
+                        <lightning-icon icon-name="utility:dash" size="x-small"></lightning-icon>
+                        <lightning-button label="Log a Call" variant="destructive" onclick={openLogCall} title="Log a Call"  class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                    -->
+                    <!--Search Area-->
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox
+                            name="searchBy"
+                            label="-Search By-"
+                            value={searchByvalue}
+                            placeholder="--Select--"
+                            options={options}
+                            onchange={openSearch} ></lightning-combobox>
+                        <template lwc:if={showSearch}>
+                            <lightning-input
+                                name="searchKey"
+                                type="search"
+                                value={conSearchValue}
+                                label=""
+                                placeholder="--Search--"
+                                onchange={getSearchValue}>
+                            </lightning-input>
+                            </br>
+                            <lightning-button label="Search" variant="brand" title="Search" onclick={searchContact} class="slds-m-left_x-small"></lightning-button>
+                        </template>
+                    </div>
+                </div>
+        </div>
+        <div class="slds-size_12-of-12 slds-p-bottom_small slds-p-top_small size-of-font left-margin slds-border_bottom slds-border_top">
+            <div class="slds-grid">
+            <div class="slds-col slds-p-left_small slds-size_1-of-5">
+                <lightning-icon icon-name="utility:log_a_call" size="x-small"></lightning-icon>
+                    <lightning-button aria-haspopup="dialog"
+                    label="Log a Call"  variant="brand" title="Log a Call" onclick={logCall}  class="slds-m-left_x-small"></lightning-button>
+            </div>
+            <div class="slds-col slds-p-left_small slds-size_1-of-5">
+                <lightning-icon icon-name="utility:contact" size="x-small"></lightning-icon>
+                    <lightning-button aria-haspopup="dialog"
+                    label="View Contact"  variant="brand" title="View Contact" onclick={viewCon}  class="slds-m-left_x-small"></lightning-button>
+            </div>
+            <div class="slds-col slds-p-left_small slds-size_1-of-5">
+                <lightning-icon icon-name="utility:your_account" size="x-small"></lightning-icon>
+                    <lightning-button aria-haspopup="dialog"
+                    label="View Account"  variant="brand" title="View Account" onclick={viewAcc}  class="slds-m-left_x-small"></lightning-button>
+            </div>
+            <div class="slds-col slds-p-left_small slds-size_1-of-5">
+                <lightning-icon aria-haspopup="dialog"
+                icon-name="utility:event" size="x-small"></lightning-icon>
+                <lightning-button label="Create Event"  variant="brand" title="Create Event" onclick={createEvent}  class="slds-m-left_x-small"></lightning-button>
+            </div>
+            <div class="slds-col slds-p-left_small slds-size_1-of-5">
+                <lightning-icon aria-haspopup="dialog"
+                icon-name="utility:email" size="x-small"></lightning-icon>
+                <lightning-button label="Send Mail"  variant="brand" title="Send Mail" onclick={sendMail}  class="slds-m-left_x-small"></lightning-button>
+            </div>
+            </div>
+        </div>
+        <div class="slds-wrap slds-col slds-grid_vertical-stretch slds-border_bottom slds-size_12-of-12" lwc:if={showaddContactModal}>
+            <div>
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-combobox
+                        name="searchBy"
+                        label="-Search By-"
+                        value={valueForAddConSearch}
+                        placeholder="--Select--"
+                        options={optionsForAddConSearch}
+                        onchange={openSearchForAddConSearch}></lightning-combobox>
+                    <template lwc:if={showAddConSearch}>
+                        <lightning-input
+                            name="searchKey"
+                            type="search"
+                            value={searchValueForAddConSearch}
+                            label=""
+                            placeholder="--Search--"
+                            onchange={getSearchValueForAddConSearch}>
+                        </lightning-input>
+                        </br>
+                        <lightning-button label="Search" variant="brand" title="Search" onclick={searchContactForAddCon} class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button label="Close" variant="brand-outline" title="Close" onclick={closeSearchForAddConSearch} class="slds-m-left_xx-large"></lightning-button>
+                    </template>
+                </div> 
+            </div>
+            <div class="slds-col slds-scrollable slds-p-top_medium .slds-size_1-of-2" style="height:200px">
+                <table class="slds-table slds-table_bordered slds-table_col-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="slds-truncate"> </div>
+                            </th>
+                             <th scope="col">
+                                <div class="slds-truncate">Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Email</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Account</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Title</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={contactsToAdd} for:item="contact">
+                            <tr key={contact.Id}>
+                                <td><lightning-input type="checkbox" onchange={selectContactToAdd} value={contact.Id}></lightning-input></td>
+                                <td>{contact.Name}</td>
+                                <td>{contact.Email}</td>
+                                <td>{contact.Account_Name_Formula__c}</td>
+                                <td>{contact.Title}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slds-size_1-of-2">
+                <div class="slds-col slds-p-around_x-small slds-size_1-of-2">
+                    <lightning-button variant="brand" label="Add" class=".slds-float_left" title="Add Contact" onclick={addContactToCampaign}></lightning-button>
+                </div>
+                <div class="slds-col slds-p-around_x-small slds-size_1-of-2">
+                    <lightning-button variant="brand-outline" label="Close" class=".slds-float_right" title="Close" onclick={closeAddContact}></lightning-button>
+                </div >
+            </div>
+        </div>
+        <!--<div class="slds-align_absolute-center" lwc:if={showaddContactModal}>
+            <div class="slds-scrollable_y" style="height:10rem;width:50rem">
+                    <lightning-card>
+                                <ul class="slds-m-around_medium">
+                                    <template for:each={contactsToAdd} for:item="contact">
+                                        <li key={contact.Id}>
+                                            <lightning-input type="checkbox" label={contact.Name}  onchange={selectContactToAdd} value={contact.Id}></lightning-input> <span>
+
+                                            </span>
+                                        </li>
+                                    </template>                                
+                                </ul>
+                    </lightning-card>
+            </div>
+            <lightning-button label="Add" title="Add Contact" onclick={addContactToCampaign} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button label="Close" title="Close" onclick={closeAddContact} class="slds-m-left_x-small"></lightning-button>
+        </div>-->
+    <div class="slds-m-bottom_small slds-border_bottom">
+        <div class="slds-border_bottom border-mrgn"></div>
+        <div class="demo-only" style="  height: 640px;" lwc:if={showModal}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close" variant="inverse" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div lwc:if={showCall}>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Log a Call</h2>
+                </div>
+                <div lwc:if={showEvent}>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Create Event</h2>
+                </div>
+                <div lwc:if={showMail}>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Send Mail</h2>
+                </div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-form" lwc:if={showCall}>
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <lightning-combobox name="ActionTaken" label="Action Taken"
+                                options={CallActionTakenPicklistValues} required="true" onchange={fetchActionValueLogCall}>
+                            </lightning-combobox>
+                            </div>
+                            <div class="slds-form-element__control">
+                                <lightning-input type="text" required="true" label="Subject" value={logCallSubjectValue} onchange={fetchSubjectLogCall}></lightning-input>
+                            </div>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea label="Description" value={logCallDescription} onchange={fetchDescLogCall}></lightning-textarea>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="slds-form" lwc:if={showEvent}>
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <lightning-combobox name="ActionTaken" label="Action Taken" value={actionTakenValue}
+                                options={EventActionTakenPicklistValues} required="true" onchange={fetchActionValueLogCall}>
+                            </lightning-combobox>
+                            </div>
+                            <div class="slds-form-element__control">
+                                <lightning-input required="true" type="text" label="Subject" value={logCallSubjectValue} onchange={fetchSubjectLogCall}></lightning-input>
+                            </div>
+                            <div class="slds-form-element__control">
+                                <lightning-input required="true" type="datetime"  name="startDate" value={eventStDt} onchange={fetchEvtStartDT} label="Enter Start Date"></lightning-input>
+                            </div>
+                            <div class="slds-form-element__control">
+                                <lightning-input required="true" type="datetime"  name="endDate" value={eventEndDt} onchange={fetchEvtEndDT} label="Enter End Date"></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form" lwc:if={showMail}>
+                        <div class="slds-form-element__control">
+                            <lightning-combobox name="Mail Template" label="Mail Template" value={mailTemplate}
+                            options={mailTemplates} onchange={setTemplate}>
+                        </lightning-combobox>
+                        </div>
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <lightning-textarea disabled="true"
+                            value={templateMailBody}>
+                            </lightning-textarea>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                <lightning-button variant="brand" label="Submit" onclick={submitModal} class="slds-p-around_x-small">
+                </lightning-button>
+                <lightning-button variant="brand" label="Cancel" onclick={closeModal} class="slds-p-around_x-small">
+                </lightning-button>
+                </footer>
+            </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        </div>
+
+        <div class="slds-m-bottom_small slds-border_bottom">
+        <!--Grid Area-->
+            <div style="height: 350px;">
+             <!--     <template lwc:if={showGrid}> -->
+                    <lightning-datatable
+                        data-id="contactGrid"
+                        key-field="Id"
+                        data={contacts}
+                        sorted-by={sortBy}
+                        sorted-direction={sortDirection}
+                        onsort={doSorting}
+                        onsave={handleSave}
+                        draft-values={saveDraftValues} 
+                        columns={columns}>
+                    </lightning-datatable>
+            <!--     </template> -->
+                <!--  
+                <template lwc:if={showSearch}>
+                    <lightning-datatable
+                        key-field="id"
+                        sorted-by={sortBy}
+                        sorted-direction={sortDirection}
+                        onsort={doSorting}
+                        data={searchedContacts}
+                        columns={columns}>
+                    </lightning-datatable>
+                </template>
+                -->
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,38 @@
+<template>
+<lightning-card title="Create Interview">
+    <div class="slds-m-around_medium">
+        <!--<div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_9-of-12">
+                <lightning-input label="Message" type="text" value={message} onchange={handleMessage}></lightning-input>
+            </div>
+            
+            <div class="slds-col slds-size_3-of-12">
+                <lightning-input type="datetime-local" label="Select date and time" value={dateTimeValue} onchange={handleDateTimeChange}></lightning-input>
+            </div>
+        </div>-->
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_10-of-12">
+                <lightning-input label="Question" type="text" value={item} onchange={handleInputChange}></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-12">
+                <lightning-combobox label="Minutes" options={minuteOptions} value={minutes} onchange={handleMinutesChange}></lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-12">
+                <lightning-combobox label="Seconds" options={secondOptions} value={seconds} onchange={handleSecondsChange}></lightning-combobox>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <lightning-button variant="brand" label="Add" title="Add" onclick={addItemToList}></lightning-button>
+        </div>
+    </div>
+    <ul class="slds-list_dotted slds-m-around_small">
+        <template for:each={items} for:item="item" for:index="index">
+            <li key={item} class="slds-m-top_small slds-p-around_small slds-border_bottom">{item}s
+                <lightning-icon data-index={index} icon-name="utility:close" size="x-small" onclick={removeItem} alternative-text="remove"></lightning-icon>
+            </li>
+        </template>
+    </ul>
+    <lightning-button label="Publish Interview" onclick={ArrangeInterview} variant="brand"></lightning-button>
+    
+</lightning-card>
+</template>

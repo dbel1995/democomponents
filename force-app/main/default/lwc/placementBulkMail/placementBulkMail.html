@@ -1,0 +1,95 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+          
+           <div class="slds-form form slds-var-p-top_small">
+                <div class="slds-form-element slds-form-element_horizontal slds-form-element_1-col">
+                    <label class="slds-form-element__label" for="to">To</label>
+                    <div class="slds-form-element__control">
+                        <lightning-input type="email" read-only="true" 
+                            value={emailAddressesString} oninput={handleChange}>
+                        </lightning-input>
+                    </div>
+                </div>
+           </div>
+           <div class="slds-form form slds-var-p-top_small">
+                <div class="slds-form-element slds-form-element_horizontal slds-form-element_1-col">
+                <label class="slds-form-element__label" for="cc">Cc</label>
+                <div class="slds-form-element__control">
+                <c-placement-bulk-mail-child onselection={handleCcChange}></c-placement-bulk-mail-child>>
+                </div>
+                </div>
+            </div>
+            
+            <div class="slds-form-element">
+                <div class="slds-form-element slds-form-element_horizontal slds-form-element_1-col">
+                <label class="slds-form-element__label" >Subject </label>
+                <template if:true={templateMail}>
+                <div class="slds-form-element__control">
+                    <input placeholder="Subject... same as described in selected template"
+                        class="slds-input" readonly/>
+                </div>
+                </template>
+                <template if:true={textMail}>
+                        <div class="slds-form-element__control">
+                            <lightning-input onchange={handleSubject} value={mailSubject}></lightning-input>
+                        </div>
+                </template>
+                </div>
+            </div>
+            
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" >Mail Body </label>
+                <template if:true={templateMail}>
+                <div class="slds-form-element__control slds-var-p-top_small">
+                    <lightning-input-rich-text placeholder="click here first and then select the template"  
+                    value={templateMailBody} onchange={handleTemplateBody}>
+                    </lightning-input-rich-text>
+                </div>
+                </template>
+                <template if:true={textMail}>
+                    <div class="slds-form-element__control slds-var-p-top_small">
+                        <lightning-input-rich-text   
+                        value={textMailBody} onchange={handleTextBody}>
+                        </lightning-input-rich-text>
+                    </div>
+                    </template>
+            </div>
+        
+            <template if:true={templateMail}>
+            <div class="slds-col slds-var-p-right_x-small slds-var-p-bottom_x-small">
+                <lightning-combobox label="Email Templates" value={selectedTemplateId} 
+                 options={templates} onchange={handleTemplateSelection}>
+                </lightning-combobox>
+            </div>
+            </template>
+    
+            
+                <!--<div class="slds-col slds-var-p-left_x-small">-->
+                    <template if:true={success}>
+                        <h1 class="slds-text-color_success">Mail sent successfully</h1>
+                    </template>
+                    <template if:true={failure}>
+                        <template if:true={templateMail}>
+                        <h2 class="slds-text-color_error">Failure. Either 'To' is empty or Cc-email address format invalid or no Template was Selected</h2>
+                        </template>
+                        <template if:true={textMail}>
+                        <h2 class="slds-text-color_error">Failure. Either 'To' is empty or Cc-email address format invalid</h2>
+                        </template>
+                    </template>
+                <!--</div>-->
+            <div class="slds-form-element slds-grid slds-grid_align-end">
+                <div class="slds-col slds-var-p-right_x-small">
+                    <lightning-button label="Reset" title="reset" 
+                    variant= "brand" onclick={handleReset}></lightning-button>
+                </div>
+        
+                <div class="slds-col slds-var-p-right_x-small">
+                    <lightning-button variant="brand" label="Send"
+                        title="send" onclick={handleSuccess}
+                    ></lightning-button>
+                </div>
+            </div>
+        </div>
+    </article>
+</template>

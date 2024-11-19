@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recId" type="String[]" label="Record Ids" description="Ids Of selected records"/>
+            <property name="Placement" type="String" label="Placement Id" description="To get Placement record that is being used "/>
+            <property name="Retakes" type="Integer" label="Max-Retakes" description="To get maximum number of retakes"/>
+            <property name="Message" type="String" label="Message" description="Stores personalied message of interviewer"/>
+            <property name="EndDate" type="String" label="EndDate" description="Stores value of end date selected"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
